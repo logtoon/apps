@@ -44,7 +44,7 @@ app.post('/webhook/', function(req, res) {
 		let sender = event.sender.id
 		if (event.message && event.message.text) {
 			let text = event.message.text
-			sendText(sender, rlys[getRandomInt(0, 10)])
+			sendText(sender, rlys[getRandomInt(0, 7)])
 			//sendText(sender, "Text echo: " + text.substring(0, 100)+" "+getRandomInt(0, 10))
 		}
 	}
