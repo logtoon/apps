@@ -18,6 +18,8 @@ app.get('/', function(req, res){
 	
 })
 
+let token ="EAASyePdFYgABAPLRnfdLWyarO0yfOQTqzLY476AsZAO5Edinc4mQ92ghelXTghO07Q0yK3tMfldkZC2W75gP6KX83sZB9yH9WWdHNgHsZA5ZCP4NcsjojX7jRTk1xrAR3Lzu4X2NoenxHSyZC9GXTrMGPWJV00Xizm0Gc4jM0fIQZDZD"
+
 //facebook functions
 
 app.get('/webhook/', function(req, res){
@@ -27,6 +29,43 @@ app.get('/webhook/', function(req, res){
 		}
 		res.send("Wrong token")
 })
+
+app.post('/webhook/', function(req, res){
+	let messaging_events = req.body.entry[0].messaging
+	
+	for(let i = 0; i<messaging_events.length; i++){
+		let event = messaging_events[i]
+		let sender = event.sender,id
+		if(event.message && event.message.text){
+			let text = event.message.text
+			sendText(sender, "Text echo: "+text.substring(0,100))
+			}
+		}
+		res.sendStatus(200)
+		
+	
+	})
+	
+function sendText(sender, text){
+	
+	let messageData={text: text}
+	request({
+		url:"https://graph.facebook.com/v2.6/me/messages",
+		qs:{access_token:token},
+		method:"POST",
+		json:{
+			recipient:{id:sender},
+			message:messageData
+			}
+		}, function(error, response, body){
+				if(error){
+					console.log("sending error")
+					}
+				else if(response.body.error){
+					console.log("response body error")
+					}	
+			})
+	}	
 
 app.listen(app.get('port'), function(){
 		console.log("running: port")
