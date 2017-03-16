@@ -6,6 +6,8 @@ const request = require('request')
 
 const app = express()
 
+var rlys=["Hi","Hello","Don't know what that mean..","Thanks for reply","Something is not right","This is some random reponse","Hello I'm 360","What does that mean?"]
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -42,7 +44,8 @@ app.post('/webhook/', function(req, res) {
 		let sender = event.sender.id
 		if (event.message && event.message.text) {
 			let text = event.message.text
-			sendText(sender, "Text echo: " + text.substring(0, 100)+" "+getRandomInt(0, 10))
+			sendText(sender, rlys[getRandomInt(0, 10)])
+			//sendText(sender, "Text echo: " + text.substring(0, 100)+" "+getRandomInt(0, 10))
 		}
 	}
 	res.sendStatus(200)
