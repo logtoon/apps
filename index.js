@@ -6,6 +6,12 @@ const request = require('request')
 
 const app = express()
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 app.set('port', (process.env.PORT || 5000))
 
 // Allows us to process the data
@@ -36,7 +42,7 @@ app.post('/webhook/', function(req, res) {
 		let sender = event.sender.id
 		if (event.message && event.message.text) {
 			let text = event.message.text
-			sendText(sender, "Text echo: " + text.substring(0, 100))
+			sendText(sender, "Text echo: " + text.substring(0, 100)+" "+getRandomInt(0, 10))
 		}
 	}
 	res.sendStatus(200)
